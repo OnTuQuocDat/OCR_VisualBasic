@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Quoc Dat\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Quoc Dat\\.nuget\\packages"
+    ]
+  }
+}
