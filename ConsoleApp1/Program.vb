@@ -7,13 +7,20 @@ Module Program
     Dim result_index As Integer
     Dim save_serial_fornext As String
     Dim generate() As String = IO.File.ReadAllLines("test_generate_serial.txt")
+    Dim value_khac_serial As String
+    Dim count As Integer = 1
+    Dim i
+    Dim j
+    Dim k
+    Dim text1
+    Dim mo_Data
 
     Function find_index()
         ' Tim index cua ký tự chuỗi lastLine  đang nằm ở index thứ mấy trong file tổng --> sau đó lấy "result index" ra để cộng thêm 80 con tiếp theo
         Dim text() As String = System.IO.File.ReadAllLines("test_generate_serial.txt")
         'Dim Findstring = IO.File.ReadAllText("test_generate_serial.txt")
         result_index = Array.FindIndex(text, Function(s) s = lastLine)
-        result_index = result_index + 1
+        'result_index = result_index + 1
         If result_index >= 0 Then
             Console.WriteLine(result_index)
         Else
@@ -29,18 +36,23 @@ Module Program
     End Function
 
     Function Generate_serial()
-        For i As Integer = result_index To result_index + 81
-            Console.WriteLine("i value: {0}", i)
-        Next
+        'For i As Integer = result_index To result_index + 81
+        '   Console.WriteLine("i value: {0}", i)
+        'Next
         ''''''''''''''''''''''''''Note chỗ này vô nè
-        'If result_index < 81 Then
-        'result_index = result_index + 1
-        'End If
+        If count < 81 Then
+            value_khac_serial = generate(result_index + count)
+            count = count + 1
+        End If
         ''''''''''''''''''''
     End Function
 
     Function Save_lastserial()
-        save_serial_fornext = generate(result_index + 80)
+        'Find index cua value_khac_serial
+        Dim index_khac As Integer
+        index_khac = Array.FindIndex(generate, Function(s) s = value_khac_serial)
+
+        save_serial_fornext = generate(index_khac)
         'save_serial_fornext = "6W3NV4W"
 
         Dim file_save_name As String = "temp.txt"
@@ -64,10 +76,19 @@ Module Program
         Read_final_serial_from_txt()
         find_index()
         'Start loop for i for j ngay đây
-        Generate_serial()
+
+        For i = 0 To Fixture_Rows - 1
+            For j = 0 To Fixture_Column - 1
+                Generate_serial()
+                mo_Data = "S" + value_khac_serial
+                Console.WriteLine(mo_Data)
+
+            Next
+        Next
+        Save_lastserial()
 
         'Save serial for next start
-        Save_lastserial()
+
 
     End Sub
 
